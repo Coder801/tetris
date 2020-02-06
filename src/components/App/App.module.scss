@@ -1,0 +1,33 @@
+* {
+  font-family: 'Press Start 2P', cursive;
+}
+
+.grid {
+  display: grid;
+  grid-template-areas: "left right" "bottom bottom";
+  grid-template-columns: 304px 300px;
+  grid-template-rows: 604px 100px;
+  margin: 0 auto;
+  border: 1px;
+  width: 604px;
+
+  & .left {
+    grid-area: left;
+    background-color: #8ca0ff;
+  }
+
+  & .right {
+    grid-area: right;
+    background-color: #ffa08c;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+
+  & .bottom {
+    grid-area: bottom;
+    background-color: #ffff64;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
