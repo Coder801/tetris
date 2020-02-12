@@ -2,6 +2,10 @@
   font-family: 'Press Start 2P', cursive;
 }
 
+body {
+  background-color: black;
+}
+
 .grid {
   display: grid;
   grid-template-areas: "left right" "bottom bottom";
@@ -13,7 +17,7 @@
 
   & .left {
     grid-area: left;
-    background-color: #8ca0ff;
+    background-color: #000;
   }
 
   & .right {

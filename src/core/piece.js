@@ -1,43 +1,139 @@
-import { COLS, ROWS, BLOCK_SIZE } from "../constants";
-
-class Piece {
-  x;
-  y;
-  color;
-  shape;
-  ctx;
-
-  constructor(ctx) {
-    this.ctx = ctx;
-    this.spawn();
-  }
-
-  spawn() {
-    this.color = "blue";
-    this.shape = [
-      [2, 0, 0],
+const shapes = {
+  I: [
+    [
+      [0, 1, 0, 0],
+      [0, 1, 0, 0],
+      [0, 1, 0, 0],
+      [0, 1, 0, 0]
+    ],
+    [
+      [0, 0, 0, 0],
+      [1, 1, 1, 1],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0]
+    ]
+  ],
+  J: [
+    [
+      [0, 0, 0],
+      [3, 3, 3],
+      [0, 0, 3]
+    ],
+    [
+      [0, 3, 0],
+      [0, 3, 0],
+      [3, 3, 0]
+    ],
+    [
+      [3, 0, 0],
+      [3, 3, 3],
+      [0, 0, 0]
+    ],
+    [
+      [0, 3, 3],
+      [0, 3, 0],
+      [0, 3, 0]
+    ]
+  ],
+  L: [
+    [
+      [0, 0, 0],
+      [2, 2, 2],
+      [2, 0, 0]
+    ],
+    [
+      [2, 2, 0],
+      [0, 2, 0],
+      [0, 2, 0]
+    ],
+    [
+      [0, 0, 2],
       [2, 2, 2],
       [0, 0, 0]
-    ];
+    ],
+    [
+      [0, 2, 0],
+      [0, 2, 0],
+      [0, 2, 2]
+    ]
+  ],
+  O: [
+    [
+      [1, 1],
+      [1, 1]
+    ]
+  ],
+  S: [
+    [
+      [0, 0, 0],
+      [0, 3, 3],
+      [3, 3, 0]
+    ],
+    [
+      [0, 3, 0],
+      [0, 3, 3],
+      [0, 0, 3]
+    ]
+  ],
+  Z: [
+    [
+      [0, 0, 0],
+      [2, 2, 0],
+      [0, 2, 2]
+    ],
+    [
+      [0, 2, 0],
+      [2, 2, 0],
+      [2, 0, 0]
+    ]
+  ],
+  T: [
+    [
+      [0, 0, 0],
+      [1, 1, 1],
+      [0, 1, 0]
+    ],
+    [
+      [0, 1, 0],
+      [1, 1, 0],
+      [0, 1, 0]
+    ],
+    [
+      [0, 1, 0],
+      [1, 1, 1],
+      [0, 0, 0]
+    ],
+    [
+      [0, 1, 0],
+      [0, 1, 1],
+      [0, 1, 0]
+    ]
+  ]
+};
 
-    // Starting position.
-    this.x = 3;
-    this.y = 0;
+class Piece {
+  constructor(type = "L", position = { x: 3, y: 0 }, shapeState = 0) {
+    this.type = type;
+    this.position = position;
+    this.shapes = shapes[type];
+    this.shapeState = shapeState;
+    this.shape = this.shapes[shapeState];
   }
 
-  draw() {
-    this.ctx.fillStyle = this.color;
-    this.shape.forEach((row, y) => {
-      row.forEach((value, x) => {
-        // this.x, this.y gives the left upper position of the shape
-        // x, y gives the position of the block in the shape
-        // this.x + x is then the position of the block on the board
-        if (value > 0) {
-          this.ctx.fillRect(this.x + x, this.y + y, 1, 1);
-        }
-      });
-    });
-  }
+  nextState = () => {
+    let { shape, shapeState } = this;
+    return shapeState >= shape.length ? 0 : (shapeState += 1);
+  };
+
+  move = (x, y) => {
+    this.position.x = x;
+    this.position.y = y;
+  };
+
+  rotate = () => {
+    this.shapeState = this.nextState();
+    this.shape = this.shapes[this.shapeState];
+  };
 }
 
 export default Piece;
