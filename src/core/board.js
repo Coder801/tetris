@@ -7,6 +7,10 @@ class Board {
     this.reset();
   }
 
+  save(matrix) {
+    this.grid = matrix;
+  }
+
   reset() {
     this.grid = this.getEmptyBoard();
   }
